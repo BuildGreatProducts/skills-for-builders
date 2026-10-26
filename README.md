@@ -6,6 +6,7 @@ Open-source [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) f
 
 | Skill | What it does |
 | --- | --- |
+| [ai-capability-review](ai-capability-review/SKILL.md) | Reviews how you prompt and work with AI chat and coding agents, using your past chats, Claude Code prompt history and project files as evidence. Scores you on 15 habits out of 30, then gives your top three improvements with before/after rewrites of your own prompts and copy-paste fixes. Read-only. |
 | [app-teardown](app-teardown/SKILL.md) | Screenshots every screen of your app, critiques each screen and flow for UX, conversion, retention and product, lays each flow out on a `/design` canvas with the critique beside it, and writes a ranked report to `docs/teardown/`. Never edits app code. |
 
 More skills are on the way.
