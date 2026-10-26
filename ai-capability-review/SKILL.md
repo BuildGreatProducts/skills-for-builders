@@ -7,17 +7,19 @@ description: Reviews how the user prompts and works with AI chat and AI coding a
 
 Give the user an honest, evidence-based review of how they work with AI, and the few changes that would improve their results most. Every score and every recommendation needs a **receipt**: a quote, file or pattern you actually saw. No receipt, no judgment.
 
-This review is read-only. Never change the user's files.
+This review is read-only. Never change the user's files, and create no output files: the report goes in chat.
 
 ## Step 1: Gather receipts
 
-Look at everything you can reach, and skip what you can't:
+Look at the sources below that you can reach, and skip what you can't. Read only what tells you how the user works with AI.
 
-- **Past chats**, if you can search them. Read 10–20 recent ones, favouring chats where the user asked you to build, plan or research something.
+- **Past chats**, if you can search them. Read 10–20 recent ones, favouring chats where the user asked you to build, plan or research something. Only the user's own messages count as prompts; never score assistant or system messages.
 - **Claude Code prompt history**, if `~/.claude/history.jsonl` exists. Sample the user's last 30–50 prompts from it. Use only the text the user typed.
 - **The current project folder**, if you're in one: `CLAUDE.md` or `AGENTS.md`, anything in `docs/` (product brief, PRD, roadmap, design or brand files), `.claude/settings.json` (check for hooks), skills folders, tests, CI config, and the last 30 commit messages.
 
-If you found fewer than 5 real prompts, stop and ask the user to paste 3–5 prompts they've recently given an AI, plus a sentence on how they usually work. Wait for their reply before scoring.
+Before quoting anything as a receipt, redact credentials, API keys, tokens and personal data (names, emails, phone numbers, addresses), for example `sk-…[redacted]`. Keep enough of the quote to show the habit.
+
+If you found fewer than 5 real prompts, stop and ask the user to paste enough prompts they've recently given an AI to bring the total to at least 5, plus a sentence on how they usually work. Wait for their reply, then count again before scoring.
 
 **Done when:** you can list each source you checked and roughly how many prompts or files it gave you, and you have at least 5 real prompts.
 
@@ -50,7 +52,7 @@ Score every habit 0 (not yet), 1 (sometimes) or 2 (consistently), each with a on
 
 ## Step 3: Write the report
 
-Use this structure, in this order:
+Write the report in chat, using this structure, in this order:
 
 1. **Summary.** Two or three sentences on how they use AI today, their total out of 30, and their level: 0–10 Starter, 11–20 Builder, 21–26 Pro, 27–30 Top 1%.
 2. **Scorecard.** A table: habit, score, receipt.
