@@ -11,15 +11,37 @@ This review is read-only. Never change the user's files, and create no output fi
 
 ## Step 1: Gather receipts
 
-Look at the sources below that you can reach, and skip what you can't. Read only what tells you how the user works with AI.
+Find the user's prompts yourself. Don't ask the user for anything until you've checked every source below. Read only what tells you how the user works with AI.
 
-- **Past chats**, if you can search them. Read 10–20 recent ones, favouring chats where the user asked you to build, plan or research something. Only the user's own messages count as prompts; never score assistant or system messages.
-- **Claude Code prompt history**, if `~/.claude/history.jsonl` exists. Sample the user's last 30–50 prompts from it. Use only the text the user typed.
-- **The current project folder**, if you're in one: `CLAUDE.md` or `AGENTS.md`, anything in `docs/` (product brief, PRD, roadmap, design or brand files), `.claude/settings.json` (check for hooks), skills folders, tests, CI config, and the last 30 commit messages.
+### Prompts
+
+Check each source that exists and that you can reach. Aim for 30–50 prompts in total, spread across several projects and the last few weeks rather than one session.
+
+| Source | Where | What counts as a prompt |
+| --- | --- | --- |
+| Past chats (Claude.ai, Claude app) | Your chat search or recent-chats tool, if you have one. Read 10–20 recent chats, favouring ones where the user asked to build, plan or research something. | The user's own messages |
+| Claude Code prompt log | `~/.claude/history.jsonl`, one JSON object per line | The `display` field. `project` says which folder it came from. |
+| Claude Code transcripts | `~/.claude/projects/<folder>/<session>.jsonl` | Lines with `"type": "user"` whose `message.content` is a string, or a list holding `text` blocks rather than `tool_result` blocks. Skip lines with `isMeta` or `isSidechain` set to true. |
+| Codex CLI | `~/.codex/history.jsonl` | The `text` field |
+| Cursor | `~/Library/Application Support/Cursor/User/globalStorage/state.vscdb` on macOS (`%APPDATA%\Cursor\User\...` on Windows, `~/.config/Cursor/User/...` on Linux), a SQLite database. Open it read-only. | In the `cursorDiskKV` table, rows whose key starts with `bubbleId:` and whose JSON has `"type": 1`. The prompt is the `text` field. |
+
+Start with the prompt logs: they hold only what the user typed, so they're the fastest. Use transcripts for the conversation around a prompt, for example to see how the user gave feedback after the AI's first attempt (habit 9).
+
+Whatever the source, score only what the user typed. These don't count: assistant and system messages, tool output, slash commands on their own (like `/clear`), and messages the tool added automatically, which start with an XML-style tag such as `<command-name>`, `<task-notification>` or `<system-reminder>`. Text the user pasted counts as context they supplied, not as wording they wrote.
+
+Read only the prompt fields listed above. Never open credential or auth files in these folders, such as `oauth_creds.json`, `.credentials.json`, `auth.json` or `.env`.
+
+### Project setup
+
+If you're in a project folder, also read `CLAUDE.md` or `AGENTS.md`, anything in `docs/` (product brief, PRD, roadmap, design or brand files), `.claude/settings.json` (check for hooks), skills folders, tests, CI config, and the last 30 commit messages.
+
+### Privacy
 
 Before quoting anything as a receipt, redact credentials, API keys, tokens and personal data (names, emails, phone numbers, addresses), for example `sk-…[redacted]`. Keep enough of the quote to show the habit.
 
-If you found fewer than 5 real prompts, stop and ask the user to paste enough prompts they've recently given an AI to bring the total to at least 5, plus a sentence on how they usually work. Wait for their reply, then count again before scoring.
+### If you're short of prompts
+
+Ask the user only after you've checked every source. If a source exists but you couldn't read it (a permission prompt was refused, a tool was missing), name it and ask whether you may read it. Only if you still have fewer than 5 real prompts, ask the user to paste enough recent prompts to bring the total to 5, plus a sentence on how they usually work. Wait for their reply, then count again before scoring.
 
 **Done when:** you can list each source you checked and roughly how many prompts or files it gave you, and you have at least 5 real prompts.
 
